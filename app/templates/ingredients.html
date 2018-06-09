@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{%  block content %}
+    Ingredients List
+<form action="" method="post">
+{{ form.hidden_tag() }}
+{% with test = form.example %}
+    {% for field in test %}
+        {{ field.label(class_='checkbox-inline') }}
+        {{ field }}
+    {% endfor %}
+{% endwith %}
+<p>{{ form.submit1() }} {{ form.submit2() }}</p>
+    </form>
+
+<hr>
+    <p> Your cupboard contains</p>
+    {% if cupboard %}
+    {% for item in cupboard %}
+        {{ item.ingredient.ing_name }}
+    {% endfor %}
+    {% endif %}
+         {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <<ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+{% endwith %}
+{% endblock %}

@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms import widgets, SelectMultipleField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
-from app.models import User
+from app.models import User, Ingredients, Cupboard
 
 
 class LoginForm(FlaskForm):
@@ -30,3 +30,18 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+
+
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=True)
+    option_widget = widgets.CheckboxInput()
+
+
+
+class AddDeleteForm(FlaskForm):
+    results = Ingredients.query.all()
+    ing_list = [(x.id, x.ing_name) for x in results]
+    example = MultiCheckboxField('Label', choices=ing_list, coerce=int)
+    submit1 = SubmitField('Add')
+    submit2 = SubmitField('Delete')
