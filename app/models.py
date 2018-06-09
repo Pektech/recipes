@@ -10,3 +10,17 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+
+class Ingredients(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ing_name = db.Column(db.String(64), index=True, unique=True)
+    cupboard = db.relationship('Cupboard', backref='ingredient', lazy=True)
+
+
+
+class Cupboard(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    ingred = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
+    quantity = db.Column(db.Integer)
