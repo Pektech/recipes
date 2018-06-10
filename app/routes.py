@@ -17,7 +17,7 @@ def index():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('ingredients'))
+        return redirect(url_for('ingredients', username=current_user))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()

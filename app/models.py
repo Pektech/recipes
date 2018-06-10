@@ -3,9 +3,19 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+
+
+recipe_uses = db.Table('recipe_uses',
+                    db.Column('recipes_id', db.Integer, db.ForeignKey('recipes.id'),
+                              primary_key=True),
+                    db.Column('ingredients_id', db.Integer, db.ForeignKey('ingredients.id'),
+                              primary_key=True))
+
+
+
+
+
+
 
 
 
@@ -28,10 +38,16 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
 
 
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+
 class Ingredients(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ing_name = db.Column(db.String(64), index=True, unique=True)
     cupboard = db.relationship('Cupboard', backref='ingredient', lazy=True)
+
 
 
 
@@ -40,3 +56,19 @@ class Cupboard(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     ingred = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
     quantity = db.Column(db.Integer)
+
+
+class Recipes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_name = db.Column(db.String(120), index=True, unique=True)
+    recipe_type = db.Column(db.String(30), index=True)
+    recipe_info = db.Column(db.String(120), index=True)
+    contains = db.relationship('Ingredients',
+                               secondary='recipe_uses',
+                               lazy='subquery',
+                               backref=db.backref('recipes', lazy=True))
+
+
+
+
+
