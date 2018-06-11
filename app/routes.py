@@ -1,9 +1,9 @@
 from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
-from app.forms import LoginForm, RegistrationForm, AddDeleteForm
+from app.forms import LoginForm, RegistrationForm, AddDeleteForm, AddRecipe
 from app import app, db
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Ingredients, Cupboard
+from app.models import User, Ingredients, Cupboard, Recipes
 from sqlalchemy import and_
 
 
@@ -101,3 +101,30 @@ def ingredients(username):
     cupboard = Cupboard.query.filter_by(user_id=user.id)
     return render_template('ingredients.html',form=form, cupboard=cupboard)
 
+@app.route('/addRecipes', methods=["POST", "GET"])
+def addRecipes():
+    form = AddRecipe()
+    if form.validate_on_submit():
+        parent = Recipes(recipe_name=form.name.data,
+                         recipe_type=form.rec_type.data, recipe_info=form.info.data)
+
+        try:
+            db.session.add(parent)
+            db.session.commit()
+            flash("added recipe")
+
+        except:
+            db.session.rollback()
+            flash('error could not add recipe')
+        try:
+            for item in form.recipe_needs.data:
+                item_query =  Ingredients.query.filter(Ingredients.id==item).first()
+                parent.contains.append(item_query)
+                db.session.add(parent)
+                db.session.commit()
+                flash(('added  recipe/ingred', item_query))
+        except:
+            db.session.rollback()
+            flash("could not add ingredinets")
+
+    return render_template('addRecipes.html', form=form)

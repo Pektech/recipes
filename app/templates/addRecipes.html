@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+    <p>
+        {{ form.name.label }}<br>
+            {{ form.name(size=32) }}<br>
+    </p>
+    <p>
+        {{ form.info.label }}<br>
+            {{ form.info(size=320) }}<br>
+    </p>
+    <p>
+        {{ form.rec_type.label }}<br>
+            {{ form.rec_type() }}<br>
+    </p>
+    <p>
+        {% with test = form.recipe_needs %}
+    {% for field in test %}
+        {{ field.label(class_='checkbox-inline') }}
+        {{ field }}
+    {% endfor %}
+{% endwith %}
+    </p>
+    {{ form.submit() }}
+    </form>
+<hr>
+     {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <<ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+{% endwith %}
+{% endblock %}
