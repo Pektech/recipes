@@ -12,7 +12,7 @@ import binascii
 binascii.hexlify(os.urandom(24))
 
 
-echo "export SECRET_KEY="de8b814f959626bfea59db0aed7417d05f8c8bb11930122d" >> ~/PycharmProjects/ZeldaRecipes/venv/bin/activate
+echo "export SECRET_KEY="**************************8" >> ~/PycharmProjects/ZeldaRecipes/venv/bin/activate
 
 SELECT recipes.id, recipes.recipe_name, count(ingredients_id) as 'num of ingred'
 from recipes
