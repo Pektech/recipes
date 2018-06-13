@@ -1,0 +1,52 @@
+in venv set enviroment variables:
+
+
+
+echo "export FLASK_APP=zeldarecipes.py" >> ~/PycharmProjects/ZeldaRecipes/venv/bin/activate
+
+
+
+python
+import os
+import binascii
+binascii.hexlify(os.urandom(24))
+
+
+echo "export SECRET_KEY="de8b814f959626bfea59db0aed7417d05f8c8bb11930122d" >> ~/PycharmProjects/ZeldaRecipes/venv/bin/activate
+
+SELECT recipes.id, recipes.recipe_name, count(ingredients_id) as 'num of ingred'
+from recipes
+inner join recipe_uses
+on (recipes.id = recipe_uses.recipes_id)
+group by recipe_name  # all recipes with ingredient count
+
+SELECT recipes.id, recipes.recipe_name,
+count(ingredients_id) as 'num of ingred'
+from recipes
+inner join recipe_uses
+on (recipes.id = recipe_uses.recipes_id)
+group by recipe_name
+HAVING count(ingredients_id) <= 2 # all recipes having count <= 2
+
+#below works perfectly needs translating
+SELECT recipes.id, recipes.recipe_name
+from recipes
+inner join recipe_uses
+on (recipes.id = recipe_uses.recipes_id)
+inner join ingredients
+on (ingredients.id = recipe_uses.ingredients_id)
+group by recipe_name
+HAVING sum(case when ingredients.ing_name in ("Bird Egg","Hylian Rice") then 1 else 0 end) = count(*)
+
+sqlalchemy version
+
+newtest2=db.session.query(Recipes.recipe_name, Recipes.id).join(recipe_uses).
+join(Ingredients).
+group_by(recipe_name).having(func.sum(case([ingredients.name(in_("Bird Egg", "Hylian Rice"), 1)],else_=0)=count()))
+
+
+# works  !!!!!!\
+newtest2=db.session.query(Recipes.recipe_name, Recipes.id).join(recipe_uses).join(Ingredients).group_by(Recipes.recipe_name).having(func.sum(case([(Ingredients.ing_name=="Bird Egg", 1)],else_=0))==func.count(Ingredients.id))
+
+newtest2=db.session.query(Recipes.recipe_name, Recipes.id).join(recipe_uses).join(Ingredients).group_by(Recipes.recipe_name).having(func.sum(case([(Ingredients.ing_name.in_(["Bird Egg","Apple", "Hylian rice"]), 1)],else_=0))==func.count(Ingredients.id))
+

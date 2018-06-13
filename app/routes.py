@@ -126,5 +126,4 @@ def addRecipes():
         except:
             db.session.rollback()
             flash("could not add ingredinets")
-
     return render_template('addRecipes.html', form=form)

@@ -1,8 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms import widgets, SelectMultipleField, TextAreaField, SelectField
+from wtforms import (widgets, SelectMultipleField, IntegerField,
+                     TextAreaField, SelectField)
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User, Ingredients, Cupboard
+
 
 
 class LoginForm(FlaskForm):
@@ -41,7 +43,7 @@ class MultiCheckboxField(SelectMultipleField):
 
 class AddDeleteForm(FlaskForm):
     results = Ingredients.query.all()
-    ing_list = [(x.id, x.ing_name) for x in results]
+    ing_list = sorted([(x.id, x.ing_name) for x in results], key=lambda x:x[1])
     example = MultiCheckboxField('Label', choices=ing_list, coerce=int)
     submit1 = SubmitField('Add')
     submit2 = SubmitField('Delete')
@@ -50,8 +52,15 @@ class AddDeleteForm(FlaskForm):
 class AddRecipe(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     info = TextAreaField('Info', validators=[DataRequired()])
-    rec_type = SelectField('type', choices=[('heat', 'Heat'), ('health', 'Health')])
+    rec_type = SelectField('Type of recipe', choices=[('hearty', 'Hearty'),
+            ('energizing', 'Energizing'),('enduring', 'Enduring',),
+            ('fireproof', 'Fireproof'), ('chilly','Chilly'), ('spicy','Spicy'),
+            ('electro','Electro'),('hasty', 'Hasty'),('sneaky', 'Sneaky'),
+            ('mighty', 'Mighty'),('tough', 'Tough')],
+                           default='hearty')
+    hearts = IntegerField('Hearts restored', default=0)
+    sell_price = IntegerField('Sell Price', default=0)
     results = Ingredients.query.all()
-    ing_list = [(x.id, x.ing_name) for x in results]
+    ing_list = sorted([(x.id, x.ing_name) for x in results], key=lambda x:x[1])
     recipe_needs = MultiCheckboxField('Label', choices=ing_list, coerce=int)
     submit = SubmitField("Add")

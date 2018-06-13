@@ -16,10 +16,18 @@
             {{ form.rec_type() }}<br>
     </p>
     <p>
+        {{ form.hearts.label }}<br>
+            {{ form.hearts(size=3) }}<br>
+    </p>
+    <p>
+        {{ form.sell_price.label }}<br>
+            {{ form.sell_price(size=4) }}<br>
+    </p>
+    <p>
         {% with test = form.recipe_needs %}
     {% for field in test %}
-        {{ field.label(class_='checkbox-inline') }}
-        {{ field }}
+       |  {{ field.label(class_='checkbox-inline') }}
+        {{ field }}  |
     {% endfor %}
 {% endwith %}
     </p>

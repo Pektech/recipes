@@ -1,4 +1,4 @@
-from app.models import Ingredients
+from app.models import Ingredients, User, Recipes
 from app  import db
 
 
@@ -20,4 +20,25 @@ def bulkIngredAdd(ing_list):
             ing_name=item
         ))
     db.session.commit()
+
+
+
+def list_ingredients2(recipe):
+    for item in recipe:
+        print(item.ing_name)
+
+def list_cup_ing(recipe):
+    for item in recipe:
+        print(item.ingred)
+
+def find_recipes():
+    user = User.query.filter(User.username=='tom').first()
+
+
+
+
+
+# newtest = db.session.query(Recipes.id, func.count(Ingredients.id)).join(Recipes.contains).group_by(Recipes.id).having(func.count(Ingredients.id)==2)
+# this will find recipes that have n ingredinets, return s tulpe (recipe id, n)
+
 

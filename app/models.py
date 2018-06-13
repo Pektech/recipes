@@ -63,10 +63,14 @@ class Recipes(db.Model):
     recipe_name = db.Column(db.String(120), index=True, unique=True)
     recipe_type = db.Column(db.String(30), index=True)
     recipe_info = db.Column(db.String(120), index=True)
+    hearts = db.Column(db.Integer)
+    sell_price = db.Column(db.Integer)
     contains = db.relationship('Ingredients',
                                secondary='recipe_uses',
                                lazy='subquery',
                                backref=db.backref('recipes', lazy=True))
+
+
 
 
 
