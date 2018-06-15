@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+You can make the following recipe
+</div>
+<hr>
+    <div>
+    {%  for item in recipesList %}
+        <ul>{{   item.recipe_name}},
+            uses : {% for ing in item.contains %} {{ ing.ing_name }}{% endfor %}
+         . Restores {{ item.hearts }} hearts.
+            Sells for {% if item.sell_price == None %} {{0}}
+            {% else %} {{ item.sell_price}} {% endif %}.
+            Info: {{ item.recipe_info }}
+        </ul>
+    {% endfor %}
+    </div>
+
+
+{% endblock %}

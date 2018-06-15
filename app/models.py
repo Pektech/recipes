@@ -46,7 +46,7 @@ def load_user(id):
 class Ingredients(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ing_name = db.Column(db.String(64), index=True, unique=True)
-    cupboard = db.relationship('Cupboard', backref='ingredient', lazy=True)
+    cupboard = db.relationship('Cupboard', backref='ingredients', lazy=True)
 
 
 
@@ -56,7 +56,7 @@ class Cupboard(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     ingred = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
     quantity = db.Column(db.Integer)
-
+    #ingredients = db.relationship('Ingredients', backref='cupboard', lazy=True)
 
 class Recipes(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -17,7 +17,7 @@
     <p> Your cupboard contains</p>
     {% if cupboard %}
     {% for item in cupboard %}
-        {{ item.ingredient.ing_name }}
+        {{ item.ingredients.ing_name }}
     {% endfor %}
     {% endif %}
          {% with messages = get_flashed_messages() %}

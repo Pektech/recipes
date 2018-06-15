@@ -1,5 +1,6 @@
 from app.models import Ingredients, User, Recipes
 from app  import db
+from flask_login import current_user
 
 
 
@@ -27,9 +28,12 @@ def list_ingredients2(recipe):
     for item in recipe:
         print(item.ing_name)
 
-def list_cup_ing(recipe):
-    for item in recipe:
-        print(item.ingred)
+def list_cup_ing(userquery):
+    cupboardlist = []
+    for item in  userquery.cupboard:
+        cupboardlist.append(item.ingredients.ing_name)
+    return cupboardlist
+
 
 def find_recipes():
     user = User.query.filter(User.username=='tom').first()

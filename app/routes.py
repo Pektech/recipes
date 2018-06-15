@@ -3,8 +3,9 @@ from werkzeug.urls import url_parse
 from app.forms import LoginForm, RegistrationForm, AddDeleteForm, AddRecipe
 from app import app, db
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Ingredients, Cupboard, Recipes
-from sqlalchemy import and_
+from app.models import User, Ingredients, Cupboard, Recipes, recipe_uses
+from app.utils import list_cup_ing
+from sqlalchemy import func, case
 
 
 @app.route('/')
@@ -106,7 +107,11 @@ def addRecipes():
     form = AddRecipe()
     if form.validate_on_submit():
         parent = Recipes(recipe_name=form.name.data,
-                         recipe_type=form.rec_type.data, recipe_info=form.info.data)
+                         recipe_type=form.rec_type.data,
+                         recipe_info=form.info.data,
+                         hearts=form.hearts.data,
+                         sell_price=form.sell_price.data
+                         )
 
         try:
             db.session.add(parent)
@@ -126,4 +131,17 @@ def addRecipes():
         except:
             db.session.rollback()
             flash("could not add ingredinets")
+    else:
+        flash('not validating')
     return render_template('addRecipes.html', form=form)
+
+
+@app.route('/findRecipes')
+def findRecipes():
+    cupboardList = list_cup_ing(current_user)
+    recipesList = db.session.query(Recipes).join(
+        recipe_uses).join(Ingredients).group_by(Recipes.recipe_name).having(
+        func.sum(case([(Ingredients.ing_name.in_(cupboardList), 1)],else_=0)
+                 )==func.count(Ingredients.id))
+    return render_template('findRecipes.html', recipesList=recipesList)
+
