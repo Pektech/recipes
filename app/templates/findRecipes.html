@@ -4,17 +4,28 @@
 You can make the following recipe
 </div>
 <hr>
-    <div>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Recipe</th>
+        <th scope="col">Uses</th>
+        <th scope="col">Restores</th>
+        <th scope="col">Sells for</th>
+        <th scope="col">Information</th>
+    </tr>
+    </thead>
+    <tr>
     {%  for item in recipesList %}
-        <ul>{{   item.recipe_name}},
-            uses : {% for ing in item.contains %} {{ ing.ing_name }}{% endfor %}
-         . Restores {{ item.hearts }} hearts.
-            Sells for {% if item.sell_price == None %} {{0}}
-            {% else %} {{ item.sell_price}} {% endif %}.
-            Info: {{ item.recipe_info }}
-        </ul>
+        <td>{{   item.recipe_name}}</td>
+        <td>
+            {% for ing in item.contains %} {{ ing.ing_name }}{% endfor %}</td>
+        <td>{{ item.hearts }} hearts.</td>
+          <td>{% if item.sell_price == None %} {{0}}
+          {% else %} {{ item.sell_price}} {% endif %}</td>
+        <td>{{ item.recipe_info }}</td>
+        </tr>
     {% endfor %}
-    </div>
-
+    </tr>
+    </table>
 
 {% endblock %}

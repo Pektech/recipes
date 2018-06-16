@@ -1,20 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% block head %}
+<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
     <title>Zelda Recipes</title>
-</head>
-<body>
- <div>
-        <a href="{{ url_for('index') }}">Home</a>
-        {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login') }}">Login</a>
-        {% else %}
-        <a href="{{ url_for('logout') }}">Logout</a>
+{% endblock %}
+
+{%  block navbar  %}
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Zelda Recipes</a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+            {% if current_user.is_anonymous %}
+                <a class="nav-link" href="{{ url_for('login') }}">Login </a></li>
+            {% else %}
+             <li class="nav-item">
+                 <a class="nav-link" href="{{ url_for('ingredients', username=current_user.username) }}">Pick Ingredients  </a></li>
+             <li class="nav-item">
+                 <a class="nav-link" href="{{ url_for('findRecipes') }}">Find Recipes  </a></li>
+             <li class="nav-item">
+                 <a class="nav-link" href="{{ url_for('logout') }}">Logout  </a></li>
         {% endif %}
- </div>
-<hr>
-{% with messages = get_flashed_messages() %}
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+
+{%  block messages %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
             {% for message in messages %}
@@ -23,6 +36,7 @@
         </ul>
         {% endif %}
         {% endwith %}
-{% block content %} {% endblock %}
-</body>
-</html>
+{# application content needs to be provided in the app_content block #}
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}

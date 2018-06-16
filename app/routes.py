@@ -10,15 +10,15 @@ from sqlalchemy import func, case
 
 @app.route('/')
 @app.route('/index')
-@login_required
+#@login_required
 def index():
-    return render_template('index.html', title='Home')
+    return redirect(url_for('login'))
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('ingredients', username=current_user))
+        return redirect(url_for('ingredients', username=current_user.username))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -28,7 +28,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('ingredients')
+            next_page = url_for('ingredients', username=current_user.username)
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
@@ -58,6 +58,8 @@ def logout():
 @app.route('/ingredients/<username>', methods=['POST', 'GET'])
 @login_required
 def ingredients(username):
+    if username != current_user.username:
+        return redirect(url_for('index'))
     user = User.query.filter_by(username=username).first()
     form = AddDeleteForm()
     if form.validate_on_submit():
@@ -80,7 +82,7 @@ def ingredients(username):
                         # db.session.query(Cupboard).filter(
                         #     Cupboard.ingred == item).update(
                         #     {'quantity': Cupboard.quantity + 1})
-                        # db.session.commit()
+                        # db.session.commit() old code for using quantities
                     except:
                         db.session.rollback()
         elif form.submit2:
@@ -100,7 +102,8 @@ def ingredients(username):
                 else:
                     pass
     cupboard = Cupboard.query.filter_by(user_id=user.id)
-    return render_template('ingredients.html',form=form, cupboard=cupboard)
+    return render_template('ingredients.html',form=form, cupboard=cupboard,
+                           username=username)
 
 @app.route('/addRecipes', methods=["POST", "GET"])
 def addRecipes():

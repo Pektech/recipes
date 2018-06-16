@@ -1,23 +1,30 @@
 {% extends "base.html" %}
-
+{{ super() }}
 {%  block content %}
-    Ingredients List
+    <table class="table table-striped">
+    <thead>Ingredients List</thead>
+    <tbody>
 <form action="" method="post">
 {{ form.hidden_tag() }}
+
 {% with test = form.example %}
-    {% for field in test %}
-        {{ field.label(class_='checkbox-inline') }}
-        {{ field }}
+    {% for item in test | batch(6) %}
+      <tr>
+      {% for field in item %}
+      <td> {{ field }}&nbsp{{ field.label(class_='checkbox-inline') }}</td>
+          {%  endfor %}
+      </tr>
     {% endfor %}
 {% endwith %}
+</tbody>
 <p>{{ form.submit1() }} {{ form.submit2() }}</p>
     </form>
 
-<hr>
+</table>
     <p> Your cupboard contains</p>
     {% if cupboard %}
     {% for item in cupboard %}
-        {{ item.ingredients.ing_name }}
+        {{ item.ingredients.ing_name }},&nbsp
     {% endfor %}
     {% endif %}
          {% with messages = get_flashed_messages() %}
