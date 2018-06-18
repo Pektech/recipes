@@ -1,0 +1,23 @@
+Food,type,hearts,Notes,"Sell Price","ing 1","Ing 2",ing3,ing4,ing5
+"Enduring Fried Wild Greens","enduring",4,"Overfills your stamina wheel. 5 Endura Carrots overfills for 2 stamina wheels.",0,"Endura Carrot",,,,
+"Enduring Meat Curry","enduring",8,"Overfills your stamina wheel.",0,"Endura Carrot","Goron Spice","Raw Meat","Hylian Rice",
+"Enduring Milk","enduring",5,"Overfills your stamina wheel.",0,"Enduring Carrot","Fresh Milk",,,
+"Energizing Seafood Skewer","energizing",5,"Overfills your stamina wheel.",0,"Bright-eyed Crab",,,,
+"Enduring Carrot Cake","enduring",5,,0,"Endura Carrot","Tabantha Wheat","Goat Butter","Cane Sugar",
+"Enduring Salt-Grilled Prime Meat","enduring",11,"Overfills your stamina wheel. Each Endura Carrot added will increase the stamina overfill",0,"Endura Carrot","Raw Prime Meat","Rock Salt",,
+"Enduring Steamed Meat","enduring",7,"Overfills your stamina wheel.",0,"Endura Carrot","Raw Prime Meat",,,
+"Enduring Vegetable Curry","enduring",6,"Overfills your stamina wheel.",0,"Endura Carrot","Hylian Rice","Goron Spice",,
+"Energizing Mushroom Skewer","energizing",1,"Only restores some stamina. Each Hylian shroom added will restore 1 additional heart.",0,"Stamella Shroom",,,,
+"Energizing Fish and Mushroom Skewer","energizing",3,"Only refills some stamina",0,"Stamella Shroom","Hyrule Bass",,,
+"Energizing Fish Skewer","energizing",0,"Refills some stamina. Cook over open flame",0,"Fresh Fish",,,,
+"Energizing Fish Skewer","energizing",2,"Gives full stamina",0,"Staminoka Bass",,,,
+"Energizing Salt-Grilled Fish","energizing",6," Refills 3 wheels of stamina.",0,"Staminoka Bass","Stamella Shroom","Rock Salt",,
+"Energizing Glazed Meat","energizing",6,"Refills some stamina",0,"Raw Meat","Courser Bee Honey",,,
+"Energizing Honeyed Apple","energizing",5,"Refills some stamina",0,Apple,"Courser Bee Honey",,,
+"Energizing Meaty Rice Balls","energizing",8,"Refills most stamina",0,"Raw Meat","Courser Bee Honey","Hylian Rice",,
+"Energizing Steamed Meat","energizing",5,"Refills some stamina.",0,"Raw Meat","Stamella Shroom","Hyrule Herb",,
+"Enduring Steamed Meat","enduring",21,"One whole overfill wheel.",0,"Endura Shroom ","Raw Gourmet Meat","Endura Carrot",,
+"Enduring Steamed Mushrooms","enduring",14,"Refills one stamina and one whole overfill wheel.",0,"Endura Shroom","Endura Carrot",,,
+"Energizing Glazed Meat","energizing",9,"Triles 1 1/4 stamina but does not overfill",0,"Stamella Shroom","Rock Salt","Raw Prime Meat","Courser Bee Honey","Staminoka Bass"
+"Energizing Seafood Rice Balls","energizing",5,"Refills some stamina",0,"Stamella Shroom","Staminoka Bass","Hylian Rice",,
+"Energizing Honey Crepe","energizing",5,"Refills some stamina",0,Acorn,"Tabantha Wheat","Courser Bee Honey","Goat Butter","Cane Sugar"
