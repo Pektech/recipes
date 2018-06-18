@@ -5,7 +5,7 @@ from app import app, db
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Ingredients, Cupboard, Recipes, recipe_uses
 from app.utils import list_cup_ing
-from sqlalchemy import func, case
+from sqlalchemy import func, case, and_
 
 
 @app.route('/')
@@ -65,8 +65,8 @@ def ingredients(username):
     if form.validate_on_submit():
         if form.submit1.data:
             for item in form.example.data:
-                result = db.session.query(Cupboard).filter(
-                    Cupboard.ingred == item).first()
+                result = db.session.query(Cupboard).filter(and_(
+                    Cupboard.ingred == item, Cupboard.user_id==user.id)).first()
                 if result is None:
                     try:
                         cup = Cupboard(user_id=user.id, ingred=item)
@@ -91,8 +91,8 @@ def ingredients(username):
                     Cupboard.ingred == item).first()
                 if result is not None:
                     try:
-                        cup = Cupboard.query.filter_by(user_id=user.id,
-                                                       ingred=item).one()
+                        cup = Cupboard.query.filter(and_(
+                    Cupboard.ingred == item, Cupboard.user_id==user.id)).one()
                         db.session.delete(cup)
                         db.session.commit()
 
@@ -141,10 +141,13 @@ def addRecipes():
 
 @app.route('/findRecipes')
 def findRecipes():
+    page = request.args.get('page', 1, type=int)
     cupboardList = list_cup_ing(current_user)
-    recipesList = db.session.query(Recipes).join(
+    recipesList = Recipes.query.join(
         recipe_uses).join(Ingredients).group_by(Recipes.recipe_name).having(
         func.sum(case([(Ingredients.ing_name.in_(cupboardList), 1)],else_=0)
-                 )==func.count(Ingredients.id))
+                 )==func.count(Ingredients.id)
+    )
+
     return render_template('findRecipes.html', recipesList=recipesList)
 

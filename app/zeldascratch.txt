@@ -50,3 +50,8 @@ newtest2=db.session.query(Recipes.recipe_name, Recipes.id).join(recipe_uses).joi
 
 newtest2=db.session.query(Recipes.recipe_name, Recipes.id).join(recipe_uses).join(Ingredients).group_by(Recipes.recipe_name).having(func.sum(case([(Ingredients.ing_name.in_(["Bird Egg","Apple", "Hylian rice"]), 1)],else_=0))==func.count(Ingredients.id))
 
+db.session.query(Recipes).join(
+        recipe_uses).join(Ingredients).group_by(Recipes.recipe_name).having(
+        func.sum(case([(Ingredients.ing_name.in_(cupboardList), 1)],else_=0)
+                 )==func.count(Ingredients.id)
+    )
