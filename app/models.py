@@ -65,6 +65,8 @@ class Recipes(db.Model):
     recipe_info = db.Column(db.String(120), index=True)
     hearts = db.Column(db.Integer)
     sell_price = db.Column(db.Integer)
+    strength = db.Column(db.Integer, nullable=True)
+    duration = db.Column(db.String, nullable=True)
     contains = db.relationship('Ingredients',
                                secondary='recipe_uses',
                                lazy='subquery',
